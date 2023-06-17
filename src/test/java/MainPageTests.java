@@ -1,29 +1,31 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import ru.praktikum_services.qa_scooter.pages.MainPage;
-import org.openqa.selenium.WebDriver;
+import ru.praktikum_services.qa_scooter.pages.MakeOrderFormPage;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import ru.praktikum_services.qa_scooter.pages.MakeOrderFormPage;
 
 public class MainPageTests {
 
-     WebDriver driver;
+    WebDriver driver;
 
-  @Before
-  public void init() {
-      WebDriverManager.chromedriver().setup();
-      driver = new ChromeDriver();
-      driver.get("https://qa-scooter.praktikum-services.ru/");
-  }
+    @Before
+    public void init() {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.get("https://qa-scooter.praktikum-services.ru/");
+        MainPage mainPage = new MainPage(driver);
+        mainPage.cookieClose();
+    }
 
     @Test
     public void shouldBeRightTextAboutScooterPrice() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.cookieClose();
         mainPage.MainPageScroll();
         mainPage.scooterPriceButtonClick();
         String actualText = mainPage.scooterPriceAnswerGetText();
@@ -33,16 +35,15 @@ public class MainPageTests {
     @Test
     public void shouldBeRightTextAboutScooterAmount() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.cookieClose();
         mainPage.MainPageScroll();
         mainPage.scooterAmountButtonClick();
         String actualText = mainPage.scooterAmountAnswerGetText();
         assertEquals("Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.", actualText);
     }
+
     @Test
     public void shouldBeRightTextAboutScooterTime() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.cookieClose();
         mainPage.MainPageScroll();
         mainPage.scooterTimeButtonClick();
         String actualText = mainPage.scooterTimeAnswerGetText();
@@ -52,7 +53,6 @@ public class MainPageTests {
     @Test
     public void shouldBeRightTextAboutScooterTimeToday() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.cookieClose();
         mainPage.MainPageScroll();
         mainPage.scooterTimeTodayButtonClick();
         String actualText = mainPage.scooterTimeTodayAnswerGetText();
@@ -62,7 +62,6 @@ public class MainPageTests {
     @Test
     public void shouldBeRightTextAboutScooterProlong() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.cookieClose();
         mainPage.MainPageScroll();
         mainPage.scooterProlongButtonClick();
         String actualText = mainPage.scooterProlongAnswerGetText();
@@ -72,7 +71,6 @@ public class MainPageTests {
     @Test
     public void shouldBeRightTextAboutScooterCharge() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.cookieClose();
         mainPage.MainPageScroll();
         mainPage.scooterChargeButtonClick();
         String actualText = mainPage.scooterChargeAnswerGetText();
@@ -82,7 +80,6 @@ public class MainPageTests {
     @Test
     public void shouldBeRightTextAboutScooterCancelOrder() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.cookieClose();
         mainPage.MainPageScroll();
         mainPage.scooterCancelOrderButtonClick();
         String actualText = mainPage.scooterCancelOrderAnswerGetText();
@@ -92,7 +89,6 @@ public class MainPageTests {
     @Test
     public void shouldBeRightTextAboutScooterMkad() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.cookieClose();
         mainPage.MainPageScroll();
         mainPage.scooterMkadButtonClick();
         String actualText = mainPage.scooterMkadAnswerGetText();
@@ -112,16 +108,14 @@ public class MainPageTests {
     public void transitToMakeOrderFormFromMiddle() {
         MainPage mainPage = new MainPage(driver);
         MakeOrderFormPage makeOrderFormPage = new MakeOrderFormPage(driver);
-        mainPage.cookieClose();
         mainPage.orderButtonInMiddleClick();
         assertTrue(makeOrderFormPage.isMakeOrderFormHeadingDisplayed());
     }
 
     @After
     public void tearDown() {
-      driver.quit();
+        driver.quit();
     }
-
 
 
 }
